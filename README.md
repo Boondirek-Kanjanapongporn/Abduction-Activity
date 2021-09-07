@@ -1,5 +1,5 @@
 Language: Python
-Framework/Modules: pygame, pickle, math, random
+Framework/Modules: Pygame, Pickle, Math, Random
 
 Abduction Activity is my 1st year final project using Python language based on Object-oriented Programming. 
 

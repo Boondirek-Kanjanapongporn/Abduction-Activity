@@ -606,9 +606,10 @@ while running:
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    start_music.stop()
-                    CURRENT_SCREEN = 'GAME'
+                # if event.key == pygame.K_RETURN:
+                #     start_music.stop()
+                #     background_music.play(-1)
+                #     CURRENT_SCREEN = 'GAME'
 
                 mods = pygame.key.get_mods()        # Used for Capital letter keys
                 # Check Mouse hovers over Username textbox

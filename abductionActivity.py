@@ -4,6 +4,8 @@ import math as m
 import random as r
 import pickle
 import math
+import os
+import sys
 
 # Colors
 BLACK = pygame.Color(0, 0, 0)
@@ -29,8 +31,21 @@ RESOURCESPATH = "resources/"
 pygame.init()
 
 USER_INPUT = ""
-with open("data.dat", "rb") as f:
-    DATA_DICT = pickle.load(f)
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+data_path = resource_path("data.dat")
+
+if os.path.exists(data_path):
+    with open(data_path, "rb") as file:
+        DATA_DICT = pickle.load(file)
+        print("Data loaded successfully")
+else:
+    print("ERROR: Could not find data.dat")
+
 USER_DICT = {}
 
 # Essential Variables
@@ -69,21 +84,21 @@ screen = pygame.display.set_mode((screenWidth, screenHeight))
 
 # Title and Icon
 pygame.display.set_caption("Abduction Activity")
-icon = pygame.image.load(RESOURCESPATH + "UFO_abduction.png")
+icon = pygame.image.load(resource_path(RESOURCESPATH + "UFO_abduction.png"))
 pygame.display.set_icon(icon)
-logoImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "alien warning.png"), (187, 163))
-titleImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "title.png"), (500, 73))
-gameoverImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "gameover.png"), (406, 75))
-restartImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "restart.png"), (250, 36))
-right_arrow = pygame.image.load(RESOURCESPATH + "right_arrow.png")
-left_arrow = pygame.image.load(RESOURCESPATH + "left_arrow.png")
-# enterImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "enter.png"), (110, 42))
+logoImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "alien warning.png")), (187, 163))
+titleImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "title.png")), (500, 73))
+gameoverImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "gameover.png")), (406, 75))
+restartImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "restart.png")), (250, 36))
+right_arrow = pygame.image.load(resource_path(RESOURCESPATH + "right_arrow.png"))
+left_arrow = pygame.image.load(resource_path(RESOURCESPATH + "left_arrow.png"))
+# enterImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "enter.png")), (110, 42))
 
 # Adding Sound Effects
-start_music = mixer.Sound(RESOURCESPATH + "Silent Owl.mp3")
-background_music = mixer.Sound(RESOURCESPATH + "MoriCalliopeBGM.mp3")
-explosion_sound = mixer.Sound(RESOURCESPATH + "Explosion effect.wav")
-hit_sound = mixer.Sound(RESOURCESPATH + "Hit effect.mp3")
+start_music = mixer.Sound(resource_path(RESOURCESPATH + "Silent Owl.mp3"))
+background_music = mixer.Sound(resource_path(RESOURCESPATH + "MoriCalliopeBGM.mp3"))
+explosion_sound = mixer.Sound(resource_path(RESOURCESPATH + "Explosion effect.wav"))
+hit_sound = mixer.Sound(resource_path(RESOURCESPATH + "Hit effect.mp3"))
 start_music.set_volume(0.05)
 background_music.set_volume(0.05)
 explosion_sound.set_volume(0.08)
@@ -123,33 +138,33 @@ SHOP_BUTTON = 'ufo'
 # Shop Indexes
 ufo_index = 0
 ufo0_name = TEXT_FONT.render("Default UFO", True, WHITE)
-ufo0_image = pygame.image.load(RESOURCESPATH + "ufo0.png")
+ufo0_image = pygame.image.load(resource_path(RESOURCESPATH + "ufo0.png"))
 ufo1_name = TEXT_FONT.render("Radio UFO", True, WHITE)
 ufo1_cost = BUTTON_FONT.render("Cost: 500", True, COINYELLOW)
-ufo1_image = pygame.image.load(RESOURCESPATH + "ufo1.png")
+ufo1_image = pygame.image.load(resource_path(RESOURCESPATH + "ufo1.png"))
 ufo2_name = TEXT_FONT.render("Hi-Tech UFO", True, WHITE)
 ufo2_cost = BUTTON_FONT.render("Cost: 1000", True, COINYELLOW)
-ufo2_image = pygame.image.load(RESOURCESPATH + "ufo2.png")
+ufo2_image = pygame.image.load(resource_path(RESOURCESPATH + "ufo2.png"))
 
 upgrades_index = 0
-human_image = pygame.image.load(RESOURCESPATH + "sprite-run1.png")
+human_image = pygame.image.load(resource_path(RESOURCESPATH + "sprite-run1.png"))
 upgrades0_name = TEXT_FONT.render("Heart Amount", True, WHITE)
 upgrades0_cost = BUTTON_FONT.render("Cost: 200", True, COINYELLOW)
-upgrades0_image = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "heart.png"), (128, 128))
+upgrades0_image = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "heart.png")), (128, 128))
 upgrades1_name = TEXT_FONT.render("Reduce Human Rate", True, WHITE)
 upgrades1_cost = BUTTON_FONT.render("Cost: 200", True, COINYELLOW)
 upgrades2_name = TEXT_FONT.render("Reduce Bat Rate", True, WHITE)
 upgrades2_cost = BUTTON_FONT.render("Cost: 200", True, COINYELLOW)
-upgrades2_image = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-fly1.png"), (128, 128))
+upgrades2_image = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-fly1.png")), (128, 128))
 
 skin_index = 0
 skin0_name = TEXT_FONT.render("Invisible Hat", True, WHITE)
 skin1_name = TEXT_FONT.render("Christmas Hat", True, WHITE)
 skin1_cost = BUTTON_FONT.render("Cost: 150", True, COINYELLOW)
-skin1_image = pygame.image.load(RESOURCESPATH + "christmas-hat.png")
+skin1_image = pygame.image.load(resource_path(RESOURCESPATH + "christmas-hat.png"))
 skin2_name = TEXT_FONT.render("Birthday Hat", True, WHITE)
 skin2_cost = BUTTON_FONT.render("Cost: 250", True, COINYELLOW)
-skin2_image = pygame.image.load(RESOURCESPATH + "birthday-hat.png")
+skin2_image = pygame.image.load(resource_path(RESOURCESPATH + "birthday-hat.png"))
 
 # Main Menu Text
 back_space_textW = WARNING_FONT.render("Press [Backspace] to Login Again", True, WHITE)
@@ -194,12 +209,12 @@ buy_button = pygame.rect.Rect(383, 370, 140, 40)
 coin_rect = pygame.rect.Rect(510, 118, 110, 25)
 
 # Background image
-backgroundImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "cartoon-night-forest.png"), (screenWidth, screenHeight+20))
-backgroundImg2 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "cartoon-night-forest.png"), (290, 177))
+backgroundImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "cartoon-night-forest.png")), (screenWidth, screenHeight+20))
+backgroundImg2 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "cartoon-night-forest.png")), (290, 177))
 scrollingBack = 0
 
 # Heart life
-heartImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "heart.png"), (39, 39))
+heartImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "heart.png")), (39, 39))
 
 # Score
 SCORESIZE = 50
@@ -210,12 +225,12 @@ SCOREY = 5
 
 # Battery image
 BatteryList = []
-battery0 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "battery0.png"), (45, 75))
-battery1 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "battery1.png"), (45, 75))
-battery2 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "battery2.png"), (45, 75))
-battery3 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "battery3.png"), (45, 75))
-battery4 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "battery4.png"), (45, 75))
-battery5 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "battery5.png"), (45, 75))
+battery0 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "battery0.png")), (45, 75))
+battery1 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "battery1.png")), (45, 75))
+battery2 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "battery2.png")), (45, 75))
+battery3 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "battery3.png")), (45, 75))
+battery4 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "battery4.png")), (45, 75))
+battery5 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "battery5.png")), (45, 75))
 BatteryList.append(battery0)
 BatteryList.append(battery1)
 BatteryList.append(battery2)
@@ -224,7 +239,7 @@ BatteryList.append(battery4)
 BatteryList.append(battery5)
 
 # UFO image
-ufoImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "ufo0.png"), (64, 64))
+ufoImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "ufo0.png")), (64, 64))
 PLAYERX = screenWidth / 2 - 32
 PLAYERY = screenHeight / 2 - 32
 PLAYERSPEED = 4
@@ -234,37 +249,37 @@ S_change = 0
 D_change = 0
 
 # Ufo beam (Ready/Fire) image
-beamImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "yellow-beam.png"), (90, 100))
+beamImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "yellow-beam.png")), (90, 100))
 BEAMX = 0
 BEAMY = 0
 beam_tick = 0
 beam_state = 'ready'
 
 # Battery Accumulator image
-accumulatorImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "accumulator1.png"), (32, 32))
+accumulatorImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "accumulator1.png")), (32, 32))
 ACCUMULATORX = r.randint(10, screenWidth-32)
 ACCUMULATORY = r.randint(0, int(screenHeight/2))
 accumulator_tick = 0
 accumulator_cooldown = False
 
 # Coin image
-coinImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "Coin1.png"), (25, 26))
-coin1Img = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "Coin1.png"), (16, 17))
+coinImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "Coin1.png")), (25, 26))
+coin1Img = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "Coin1.png")), (16, 17))
 COINX = r.randint(10, screenWidth-25)
 COINY = r.randint(0, int(screenHeight/1.5))
 coin_tick = 0
 coin_cooldown = False
 
 # Explosion image
-explosionImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "explosion.png"), (108, 98))
+explosionImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "explosion.png")), (108, 98))
 explode_state = 'ready'
 explosion_tick = 0
 
 # Bat Sprite
-bat1 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-fly1.png"), (48, 48))
-bat2 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-fly2.png"), (48, 48))
-bat3 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-fly3.png"), (48, 48))
-bat4 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-fly4.png"), (48, 48))
+bat1 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-fly1.png")), (48, 48))
+bat2 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-fly2.png")), (48, 48))
+bat3 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-fly3.png")), (48, 48))
+bat4 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-fly4.png")), (48, 48))
 BATX = screenWidth
 BATY = r.randint(0, int(screenHeight/1.5))
 target_BATY = PLAYERY
@@ -335,14 +350,14 @@ bat_sprite = Bat_animation(BATX, BATY, 'normal')
 animated_bats.add(bat_sprite)
 
 # Human Sprite
-skinImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "christmas-hat.png"), (16, 16))
-sprite1 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-run1.png"), (35, 50))
-sprite2 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-run2.png"), (35, 50))
-sprite3 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-run3.png"), (35, 50))
-sprite4 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-run4.png"), (35, 50))
-sprite5 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-run5.png"), (35, 50))
-sprite6 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-run6.png"), (35, 50))
-sprite7 = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "sprite-run7.png"), (35, 50))
+skinImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "christmas-hat.png")), (16, 16))
+sprite1 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-run1.png")), (35, 50))
+sprite2 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-run2.png")), (35, 50))
+sprite3 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-run3.png")), (35, 50))
+sprite4 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-run4.png")), (35, 50))
+sprite5 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-run5.png")), (35, 50))
+sprite6 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-run6.png")), (35, 50))
+sprite7 = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "sprite-run7.png")), (35, 50))
 SPRITEX = screenWidth
 SPRITEY = 400
 
@@ -633,7 +648,7 @@ while running:
                     if 185 <= mouseX <= 345 and 350 <= mouseY <= 390:
                         # print("Login pressed")
                         # Read data.dat file and load into Data_Dict
-                        with open("data.dat", "rb") as f:
+                        with open(data_path, "rb") as f:
                             DATA_DICT = pickle.load(f)
 
                         # If user_input in data.dat and not empty string
@@ -919,11 +934,11 @@ while running:
 
                         # Load ufo picture to ufoImg
                         if USER_DICT["ufo0"] == 1:
-                            ufoImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "ufo0.png"), (64, 64))
+                            ufoImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "ufo0.png")), (64, 64))
                         elif USER_DICT["ufo1"] == 1:
-                            ufoImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "ufo1.png"), (64, 64))
+                            ufoImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "ufo1.png")), (64, 64))
                         elif USER_DICT["ufo2"] == 1:
-                            ufoImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "ufo2.png"), (64, 64))
+                            ufoImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "ufo2.png")), (64, 64))
 
                         # Initialize additional Upgrades
                         if USER_DICT["human"] == 2:
@@ -943,12 +958,12 @@ while running:
                             animated_sprites.add(human_sprite)
                         elif USER_DICT["skin1"] == 1:
                             SKIN = 1
-                            skinImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "christmas-hat.png"), (16, 16))
+                            skinImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "christmas-hat.png")), (16, 16))
                             human_sprite = Humansprite_animation(SPRITEX, SPRITEY, 'normal', SKIN)
                             animated_sprites.add(human_sprite)
                         elif USER_DICT["skin2"] == 1:
                             SKIN = 2
-                            skinImg = pygame.transform.scale(pygame.image.load(RESOURCESPATH + "birthday-hat.png"), (16, 16))
+                            skinImg = pygame.transform.scale(pygame.image.load(resource_path(RESOURCESPATH + "birthday-hat.png")), (16, 16))
                             human_sprite = Humansprite_animation(SPRITEX, SPRITEY, 'normal', SKIN)
                             animated_sprites.add(human_sprite)
 
@@ -1251,7 +1266,7 @@ while running:
                 if ABDUCTIONSCORE not in HUMAN_BENCH_LIST:
                     # More coin gain per collision
                     if ABDUCTIONSCORE % 10 == 0:
-                        EXTRACOIN += 20
+                        EXTRACOIN += 15
                     # Human reload algorithm + Human Upgrades
                     if HUMANRELOAD > 70 + HUMANLEVEL3:
                         HUMANRELOAD -= 10

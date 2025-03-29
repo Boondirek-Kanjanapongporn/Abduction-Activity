@@ -442,7 +442,7 @@ human_reload = HUMANRELOAD
 
 
 def saveDataDict():
-    with open("data.dat", "wb") as f:
+    with open(data_path, "wb") as f:
         pickle.dump(DATA_DICT, f)
 
 
@@ -1243,14 +1243,14 @@ while running:
                 if BATLEVEL2:
                     BATSPAWN_NONLINEAR_PROGRESS += 0.2
                 elif BATLEVEL3:
-                    BATSPAWN_NONLINEAR_PROGRESS += 0.4
+                    BATSPAWN_NONLINEAR_PROGRESS += 0.3
                 else:
                     BATSPAWN_NONLINEAR_PROGRESS += 0.1
                 target_bat_sprite = Bat_animation(BATX, target_BATY, 'normal')
                 animated_bats.add(target_bat_sprite)
                 BATAMOUNTS += 1
             WHEN_BAT_SHOULD_SPAWN = ABDUCTIONSCORE + math.floor(10 * BATSPAWN_NONLINEAR_PROGRESS)
-            print("BAT AMOUNTS: " + str(BATAMOUNTS))      
+            # print("BAT AMOUNTS: " + str(BATAMOUNTS))      
         animated_bats.draw(screen)
         animated_bats.update()
 
